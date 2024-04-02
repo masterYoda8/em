@@ -4,7 +4,7 @@ MCU = atmega328p
 F_CPU = 16000000UL
 CC = avr-gcc
 OBJCOPY = avr-objcopy
-CFLAGS = -std=c99 -Wall -g -02 -mmcu=$(MCU) -DF_CPU=$(F_CPU) -I.
+CFLAGS = -std=c99 -Wall -g -O2 -mmcu=$(MCU) -DF_CPU=$(F_CPU) -I.
 PORT = /dev/ttyACM0
 TARGET = main
 SRCS = main.c
