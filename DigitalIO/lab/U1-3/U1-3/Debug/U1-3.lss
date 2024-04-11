@@ -1,0 +1,388 @@
+
+U1-3.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000002  00800100  000001b8  0000022c  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         000001b8  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .comment      00000030  00000000  00000000  0000022e  2**0
+                  CONTENTS, READONLY
+  3 .debug_aranges 00000028  00000000  00000000  0000025e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_info   0000026f  00000000  00000000  00000286  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_abbrev 000001c3  00000000  00000000  000004f5  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_line   000001a9  00000000  00000000  000006b8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_frame  00000044  00000000  00000000  00000864  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_str    00000198  00000000  00000000  000008a8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_loc    000001fa  00000000  00000000  00000a40  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_ranges 00000058  00000000  00000000  00000c3a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+   8:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+   c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  10:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  14:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  18:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  1c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  20:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  24:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  28:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  2c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  30:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  34:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  38:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  3c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  40:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  44:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  48:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  4c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  50:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  54:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  58:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  5c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  60:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  64:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+
+00000074 <__do_copy_data>:
+  74:	11 e0       	ldi	r17, 0x01	; 1
+  76:	a0 e0       	ldi	r26, 0x00	; 0
+  78:	b1 e0       	ldi	r27, 0x01	; 1
+  7a:	e8 eb       	ldi	r30, 0xB8	; 184
+  7c:	f1 e0       	ldi	r31, 0x01	; 1
+  7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
+  80:	05 90       	lpm	r0, Z+
+  82:	0d 92       	st	X+, r0
+  84:	a2 30       	cpi	r26, 0x02	; 2
+  86:	b1 07       	cpc	r27, r17
+  88:	d9 f7       	brne	.-10     	; 0x80 <__do_copy_data+0xc>
+  8a:	0e 94 69 00 	call	0xd2	; 0xd2 <main>
+  8e:	0c 94 da 00 	jmp	0x1b4	; 0x1b4 <_exit>
+
+00000092 <__bad_interrupt>:
+  92:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000096 <getButtonValues>:
+	// 00000XXX -> Set count on tmp without modifying first 5 bits
+	tmp |= (~(*values) & 0x07);
+	PORTD = tmp;
+}
+
+void getButtonValues(uint8_t *values) {
+  96:	fc 01       	movw	r30, r24
+	// Caches previous button presses -- 1 = not pressed; 0 = pressed
+	static uint8_t pressed = 0x02;
+	uint8_t tmp = (PIND >> 6);
+  98:	89 b1       	in	r24, 0x09	; 9
+  9a:	82 95       	swap	r24
+  9c:	86 95       	lsr	r24
+  9e:	86 95       	lsr	r24
+  a0:	83 70       	andi	r24, 0x03	; 3
+	// Reset values
+	*values &= ~(0x03);
+  a2:	90 81       	ld	r25, Z
+  a4:	9c 7f       	andi	r25, 0xFC	; 252
+  a6:	90 83       	st	Z, r25
+	// Taster A3 at 0x01 positive flank
+	if (~tmp & (0x01) && (pressed & (0x01))) {
+  a8:	80 fd       	sbrc	r24, 0
+  aa:	06 c0       	rjmp	.+12     	; 0xb8 <getButtonValues+0x22>
+  ac:	20 91 00 01 	lds	r18, 0x0100
+  b0:	20 ff       	sbrs	r18, 0
+  b2:	02 c0       	rjmp	.+4      	; 0xb8 <getButtonValues+0x22>
+		*values |= 0x01;
+  b4:	91 60       	ori	r25, 0x01	; 1
+  b6:	90 83       	st	Z, r25
+	}
+	// Taster A4 at 0x02 positive flank
+	if (~tmp & (0x02) && (pressed & (0x02))) {
+  b8:	98 2f       	mov	r25, r24
+  ba:	92 70       	andi	r25, 0x02	; 2
+  bc:	39 f4       	brne	.+14     	; 0xcc <getButtonValues+0x36>
+  be:	90 91 00 01 	lds	r25, 0x0100
+  c2:	91 ff       	sbrs	r25, 1
+  c4:	03 c0       	rjmp	.+6      	; 0xcc <getButtonValues+0x36>
+		*values |= 0x02;
+  c6:	90 81       	ld	r25, Z
+  c8:	92 60       	ori	r25, 0x02	; 2
+  ca:	90 83       	st	Z, r25
+	}
+	pressed = tmp;
+  cc:	80 93 00 01 	sts	0x0100, r24
+  d0:	08 95       	ret
+
+000000d2 <main>:
+
+inline void getDipValues(uint8_t*);
+inline void setLEDS(uint8_t *);
+void getButtonValues(uint8_t *);
+
+int main(void){
+  d2:	cf 93       	push	r28
+  d4:	df 93       	push	r29
+  d6:	1f 92       	push	r1
+  d8:	cd b7       	in	r28, 0x3d	; 61
+  da:	de b7       	in	r29, 0x3e	; 62
+	// Activate Output and Input Pullupss and init
+	DDRD |= ((1 << LED0_MODE) | (1 << LED1_MODE) | (1 << LED2_MODE));
+  dc:	8a b1       	in	r24, 0x0a	; 10
+  de:	87 60       	ori	r24, 0x07	; 7
+  e0:	8a b9       	out	0x0a, r24	; 10
+	PORTD &= ~((1 << LED0_VAL) | (1 << LED1_VAL) | (1 << LED2_VAL));
+  e2:	8b b1       	in	r24, 0x0b	; 11
+  e4:	88 7f       	andi	r24, 0xF8	; 248
+  e6:	8b b9       	out	0x0b, r24	; 11
+	PORTD |= ((1 << DIP1_PULL_UP) | (1 << DIP2_PULL_UP) | (1 << DIP3_PULL_UP) | (1 << TASTER_A3_PULL_UP) | (1 << TASTER_A4_PULL_UP));
+  e8:	8b b1       	in	r24, 0x0b	; 11
+  ea:	88 6f       	ori	r24, 0xF8	; 248
+  ec:	8b b9       	out	0x0b, r24	; 11
+	uint8_t count = 7;
+
+
+	// Flank detection value 0: no flank; 1: flank detected
+	uint8_t values = 0;
+  ee:	19 82       	std	Y+1, r1	; 0x01
+int main(void){
+	// Activate Output and Input Pullupss and init
+	DDRD |= ((1 << LED0_MODE) | (1 << LED1_MODE) | (1 << LED2_MODE));
+	PORTD &= ~((1 << LED0_VAL) | (1 << LED1_VAL) | (1 << LED2_VAL));
+	PORTD |= ((1 << DIP1_PULL_UP) | (1 << DIP2_PULL_UP) | (1 << DIP3_PULL_UP) | (1 << TASTER_A3_PULL_UP) | (1 << TASTER_A4_PULL_UP));
+	uint8_t count = 7;
+  f0:	0f 2e       	mov	r0, r31
+  f2:	f7 e0       	ldi	r31, 0x07	; 7
+  f4:	9f 2e       	mov	r9, r31
+  f6:	f0 2d       	mov	r31, r0
+
+
+	// Flank detection value 0: no flank; 1: flank detected
+	uint8_t values = 0;
+	// If the counter is running or not
+	uint8_t running = 1;
+  f8:	ff 24       	eor	r15, r15
+  fa:	f3 94       	inc	r15
+  fc:	0f 2e       	mov	r0, r31
+  fe:	fa e0       	ldi	r31, 0x0A	; 10
+ 100:	df 2e       	mov	r13, r31
+ 102:	f0 2d       	mov	r31, r0
+ 104:	e1 2c       	mov	r14, r1
+				setLEDS(&count);
+				goto start;
+			} 
+			// if not running and button A4 pressed
+			else if (!running && (values & 0x02)){
+				running = 1;
+ 106:	bb 24       	eor	r11, r11
+ 108:	b3 94       	inc	r11
+			}
+			_delay_ms(100);
+		}
+
+		if(running){
+			count = (!count) ? 7 : count - 1;
+ 10a:	0f 2e       	mov	r0, r31
+ 10c:	f7 e0       	ldi	r31, 0x07	; 7
+ 10e:	cf 2e       	mov	r12, r31
+ 110:	f0 2d       	mov	r31, r0
+		start:
+		for (int i = 0; i < 10; i++){
+			getButtonValues(&values);
+			// if timer is running and button A3 pressed
+			if(running && (values & 0x01)){
+				running = 0;
+ 112:	a1 2c       	mov	r10, r1
+ 114:	01 c0       	rjmp	.+2      	; 0x118 <main+0x46>
+				setLEDS(&count);
+				goto start;
+			} 
+			// if not running and button A4 pressed
+			else if (!running && (values & 0x02)){
+				running = 1;
+ 116:	fb 2c       	mov	r15, r11
+
+
+	// Flank detection value 0: no flank; 1: flank detected
+	uint8_t values = 0;
+	// If the counter is running or not
+	uint8_t running = 1;
+ 118:	0d 2d       	mov	r16, r13
+ 11a:	1e 2d       	mov	r17, r14
+	
+	while(1){
+		start:
+		for (int i = 0; i < 10; i++){
+			getButtonValues(&values);
+ 11c:	ce 01       	movw	r24, r28
+ 11e:	01 96       	adiw	r24, 0x01	; 1
+ 120:	0e 94 4b 00 	call	0x96	; 0x96 <getButtonValues>
+			// if timer is running and button A3 pressed
+			if(running && (values & 0x01)){
+ 124:	ff 20       	and	r15, r15
+ 126:	b1 f0       	breq	.+44     	; 0x154 <main+0x82>
+ 128:	89 81       	ldd	r24, Y+1	; 0x01
+ 12a:	80 ff       	sbrs	r24, 0
+ 12c:	33 c0       	rjmp	.+102    	; 0x194 <main+0xc2>
+		}
+	}
+}
+
+inline void getDipValues(uint8_t *reg) {
+	*reg = (~PIND >> 3); 
+ 12e:	89 b1       	in	r24, 0x09	; 9
+ 130:	90 e0       	ldi	r25, 0x00	; 0
+ 132:	80 95       	com	r24
+ 134:	90 95       	com	r25
+ 136:	95 95       	asr	r25
+ 138:	87 95       	ror	r24
+ 13a:	95 95       	asr	r25
+ 13c:	87 95       	ror	r24
+ 13e:	95 95       	asr	r25
+ 140:	87 95       	ror	r24
+ 142:	98 2e       	mov	r9, r24
+}
+
+inline void setLEDS(uint8_t *values) {
+	uint8_t tmp = PORTD;
+ 144:	9b b1       	in	r25, 0x0b	; 11
+	// 11111000 -> Clear last 3 bits
+	tmp &= 0xF8;
+	// 00000XXX -> Set count on tmp without modifying first 5 bits
+	tmp |= (~(*values) & 0x07);
+ 146:	80 95       	com	r24
+ 148:	87 70       	andi	r24, 0x07	; 7
+}
+
+inline void setLEDS(uint8_t *values) {
+	uint8_t tmp = PORTD;
+	// 11111000 -> Clear last 3 bits
+	tmp &= 0xF8;
+ 14a:	98 7f       	andi	r25, 0xF8	; 248
+	// 00000XXX -> Set count on tmp without modifying first 5 bits
+	tmp |= (~(*values) & 0x07);
+ 14c:	89 2b       	or	r24, r25
+	PORTD = tmp;
+ 14e:	8b b9       	out	0x0b, r24	; 11
+		start:
+		for (int i = 0; i < 10; i++){
+			getButtonValues(&values);
+			// if timer is running and button A3 pressed
+			if(running && (values & 0x01)){
+				running = 0;
+ 150:	fa 2c       	mov	r15, r10
+ 152:	e2 cf       	rjmp	.-60     	; 0x118 <main+0x46>
+				getDipValues(&count);
+				setLEDS(&count);
+				goto start;
+			} 
+			// if not running and button A4 pressed
+			else if (!running && (values & 0x02)){
+ 154:	89 81       	ldd	r24, Y+1	; 0x01
+ 156:	81 ff       	sbrs	r24, 1
+ 158:	0e c0       	rjmp	.+28     	; 0x176 <main+0xa4>
+ 15a:	dd cf       	rjmp	.-70     	; 0x116 <main+0x44>
+			}
+			_delay_ms(100);
+		}
+
+		if(running){
+			count = (!count) ? 7 : count - 1;
+ 15c:	99 20       	and	r9, r9
+ 15e:	11 f0       	breq	.+4      	; 0x164 <main+0x92>
+ 160:	9a 94       	dec	r9
+ 162:	01 c0       	rjmp	.+2      	; 0x166 <main+0x94>
+ 164:	9c 2c       	mov	r9, r12
+inline void getDipValues(uint8_t *reg) {
+	*reg = (~PIND >> 3); 
+}
+
+inline void setLEDS(uint8_t *values) {
+	uint8_t tmp = PORTD;
+ 166:	8b b1       	in	r24, 0x0b	; 11
+	// 11111000 -> Clear last 3 bits
+	tmp &= 0xF8;
+	// 00000XXX -> Set count on tmp without modifying first 5 bits
+	tmp |= (~(*values) & 0x07);
+ 168:	99 2d       	mov	r25, r9
+ 16a:	90 95       	com	r25
+ 16c:	97 70       	andi	r25, 0x07	; 7
+}
+
+inline void setLEDS(uint8_t *values) {
+	uint8_t tmp = PORTD;
+	// 11111000 -> Clear last 3 bits
+	tmp &= 0xF8;
+ 16e:	88 7f       	andi	r24, 0xF8	; 248
+	// 00000XXX -> Set count on tmp without modifying first 5 bits
+	tmp |= (~(*values) & 0x07);
+ 170:	89 2b       	or	r24, r25
+	PORTD = tmp;
+ 172:	8b b9       	out	0x0b, r24	; 11
+ 174:	d1 cf       	rjmp	.-94     	; 0x118 <main+0x46>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 176:	2f ef       	ldi	r18, 0xFF	; 255
+ 178:	81 ee       	ldi	r24, 0xE1	; 225
+ 17a:	94 e0       	ldi	r25, 0x04	; 4
+ 17c:	21 50       	subi	r18, 0x01	; 1
+ 17e:	80 40       	sbci	r24, 0x00	; 0
+ 180:	90 40       	sbci	r25, 0x00	; 0
+ 182:	e1 f7       	brne	.-8      	; 0x17c <main+0xaa>
+ 184:	00 c0       	rjmp	.+0      	; 0x186 <main+0xb4>
+ 186:	00 00       	nop
+ 188:	01 50       	subi	r16, 0x01	; 1
+ 18a:	11 09       	sbc	r17, r1
+	// If the counter is running or not
+	uint8_t running = 1;
+	
+	while(1){
+		start:
+		for (int i = 0; i < 10; i++){
+ 18c:	01 15       	cp	r16, r1
+ 18e:	11 05       	cpc	r17, r1
+ 190:	29 f6       	brne	.-118    	; 0x11c <main+0x4a>
+ 192:	c2 cf       	rjmp	.-124    	; 0x118 <main+0x46>
+ 194:	2f ef       	ldi	r18, 0xFF	; 255
+ 196:	81 ee       	ldi	r24, 0xE1	; 225
+ 198:	94 e0       	ldi	r25, 0x04	; 4
+ 19a:	21 50       	subi	r18, 0x01	; 1
+ 19c:	80 40       	sbci	r24, 0x00	; 0
+ 19e:	90 40       	sbci	r25, 0x00	; 0
+ 1a0:	e1 f7       	brne	.-8      	; 0x19a <main+0xc8>
+ 1a2:	00 c0       	rjmp	.+0      	; 0x1a4 <main+0xd2>
+ 1a4:	00 00       	nop
+ 1a6:	01 50       	subi	r16, 0x01	; 1
+ 1a8:	11 09       	sbc	r17, r1
+ 1aa:	01 15       	cp	r16, r1
+ 1ac:	11 05       	cpc	r17, r1
+ 1ae:	09 f0       	breq	.+2      	; 0x1b2 <main+0xe0>
+ 1b0:	b5 cf       	rjmp	.-150    	; 0x11c <main+0x4a>
+ 1b2:	d4 cf       	rjmp	.-88     	; 0x15c <main+0x8a>
+
+000001b4 <_exit>:
+ 1b4:	f8 94       	cli
+
+000001b6 <__stop_program>:
+ 1b6:	ff cf       	rjmp	.-2      	; 0x1b6 <__stop_program>
