@@ -1,0 +1,160 @@
+
+U1-3.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000ca  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .comment      00000030  00000000  00000000  0000011e  2**0
+                  CONTENTS, READONLY
+  2 .debug_aranges 00000020  00000000  00000000  0000014e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   000001c6  00000000  00000000  0000016e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 00000139  00000000  00000000  00000334  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   0000013f  00000000  00000000  0000046d  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000024  00000000  00000000  000005ac  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    00000170  00000000  00000000  000005d0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_loc    000000dc  00000000  00000000  00000740  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_ranges 00000010  00000000  00000000  0000081c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+   8:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+   c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  10:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  14:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  18:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  1c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  20:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  24:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  28:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  2c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  30:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  34:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  38:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  3c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  40:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  44:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  48:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  4c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  50:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  54:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  58:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  5c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  60:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  64:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+  74:	0e 94 40 00 	call	0x80	; 0x80 <main>
+  78:	0c 94 63 00 	jmp	0xc6	; 0xc6 <_exit>
+
+0000007c <__bad_interrupt>:
+  7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000080 <main>:
+inline void setLEDS(uint8_t *);
+inline void flankDetection(uint8_t *, uint8_t *);
+
+int main(void){
+	// Activate Output and init
+	DDRD |= ((1 << LED0_MODE) | (1 << LED1_MODE) | (1 << LED2_MODE));
+  80:	8a b1       	in	r24, 0x0a	; 10
+  82:	87 60       	ori	r24, 0x07	; 7
+  84:	8a b9       	out	0x0a, r24	; 10
+	PORTD &= ~((1 << LED0_VAL) | (1 << LED1_VAL) | (1 << LED2_VAL));
+  86:	8b b1       	in	r24, 0x0b	; 11
+  88:	88 7f       	andi	r24, 0xF8	; 248
+  8a:	8b b9       	out	0x0b, r24	; 11
+	PORTD |= ((1 << DIP1_PULL_UP) | (1 << DIP2_PULL_UP) | (1 << DIP3_PULL_UP) | (1 << TASTER_A3_PULL_UP) | (1 << TASTER_A4_PULL_UP));
+  8c:	8b b1       	in	r24, 0x0b	; 11
+  8e:	88 6f       	ori	r24, 0xF8	; 248
+  90:	8b b9       	out	0x0b, r24	; 11
+	uint8_t count = 7;
+  92:	87 e0       	ldi	r24, 0x07	; 7
+	while(1){
+		_delay_ms(100);
+		//flankDetection(&pressed, &values);
+		getValues(&values);
+		setLEDS(&values);
+		count = (!count) ? 7 : count - 1;
+  94:	37 e0       	ldi	r19, 0x07	; 7
+  96:	01 c0       	rjmp	.+2      	; 0x9a <main+0x1a>
+  98:	83 2f       	mov	r24, r19
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  9a:	2f ef       	ldi	r18, 0xFF	; 255
+  9c:	41 ee       	ldi	r20, 0xE1	; 225
+  9e:	94 e0       	ldi	r25, 0x04	; 4
+  a0:	21 50       	subi	r18, 0x01	; 1
+  a2:	40 40       	sbci	r20, 0x00	; 0
+  a4:	90 40       	sbci	r25, 0x00	; 0
+  a6:	e1 f7       	brne	.-8      	; 0xa0 <main+0x20>
+  a8:	00 c0       	rjmp	.+0      	; 0xaa <main+0x2a>
+  aa:	00 00       	nop
+	}
+}
+
+inline void getValues(uint8_t *reg) {
+	*reg = (~PIND >> 3); 
+  ac:	99 b1       	in	r25, 0x09	; 9
+}
+
+inline void setLEDS(uint8_t *values) {
+	uint8_t tmp = PORTD;
+  ae:	2b b1       	in	r18, 0x0b	; 11
+	// 11111000 -> Clear last 3 bits
+	tmp &= 0xF8;
+	// 00000XXX -> Set count on tmp without modifying first 5 bits
+	tmp |= (~(*values) & 0x07);
+  b0:	96 95       	lsr	r25
+  b2:	96 95       	lsr	r25
+  b4:	96 95       	lsr	r25
+  b6:	97 70       	andi	r25, 0x07	; 7
+}
+
+inline void setLEDS(uint8_t *values) {
+	uint8_t tmp = PORTD;
+	// 11111000 -> Clear last 3 bits
+	tmp &= 0xF8;
+  b8:	28 7f       	andi	r18, 0xF8	; 248
+	// 00000XXX -> Set count on tmp without modifying first 5 bits
+	tmp |= (~(*values) & 0x07);
+  ba:	92 2b       	or	r25, r18
+	PORTD = tmp;
+  bc:	9b b9       	out	0x0b, r25	; 11
+	while(1){
+		_delay_ms(100);
+		//flankDetection(&pressed, &values);
+		getValues(&values);
+		setLEDS(&values);
+		count = (!count) ? 7 : count - 1;
+  be:	88 23       	and	r24, r24
+  c0:	59 f3       	breq	.-42     	; 0x98 <main+0x18>
+  c2:	81 50       	subi	r24, 0x01	; 1
+  c4:	ea cf       	rjmp	.-44     	; 0x9a <main+0x1a>
+
+000000c6 <_exit>:
+  c6:	f8 94       	cli
+
+000000c8 <__stop_program>:
+  c8:	ff cf       	rjmp	.-2      	; 0xc8 <__stop_program>

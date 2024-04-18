@@ -1,5 +1,6 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include "events.h"
 
 // F_CPU has to be defined before include; otherwise error because F_CPU would be defined by util/delay.h if not already defined before
 #define F_CPU 16000000UL
@@ -43,25 +44,40 @@ void setLEDS();
 // If the counter is running or not
 volatile uint8_t running = 1;
 volatile uint8_t count;
+volatile uint8_t buttonReset = 1;
+volatile uint8_t buttonStart = 1;
 
-ISR(INT0_vect){
-	running = 1;
-}
+event_type CHECK_BUTTON = 1;
+event_type COUNTDOWN_EV = 2;
 
-ISR(PCINT1_vect) {
-	uint8_t buttonPressed = (~PINC) & (1 << PINC0);
-	if (buttonPressed) {
-		running = 0;
-		getDipValues();
-		setLEDS();
-	} 	
+ISR(TIMER0_OVF_vect){
+	static uint16_t countdown = 1000;
+	countdown--;
+	
+	if (!(countdown % 50)) {
+		setEvent(CHECK_BUTTON);
+	}
+	
+	if(!countdown) {
+		setEvent(COUNTDOWN_EV);
+		countdown = 1000;
+	}
+	
+	TCNT0 = 6;
 }
 
 ISR(PCINT2_vect){
-	// If we would set register in main and clear it here the clearing operation would cause a second interrupt -> ISR will be called twice instead of once
-	count = 7;		
-	setLEDS();
-
+	uint8_t softwareInterrupt = (PORTD & (1 << PORTD1));
+	if (softwareInterrupt) {
+			//DEBUG
+			//PORTD &= ~(1 << DEBUG_LED_VAL);
+			//_delay_ms(100);
+			//PORTD |= (1 << DEBUG_LED_VAL);
+			//DEBUG END
+			count = 7;
+			PORTD &= ~(1 << PORTD1);
+			setLEDS();
+	}
 }
 
 int main(void){
@@ -77,18 +93,16 @@ int main(void){
 	PORTD |= ((1 << DIP0_PULL_UP) | (1 << DIP1_PULL_UP) | (1 << DIP2_PULL_UP) | (1 << TASTER_A4_PULL_UP));
 	PORTC |= (1 << TASTER_A3_PULL_UP);
 	
-	// Set INT0 to detect falling edge
-	EICRA |= (1 << ISC01);
+	// Enable interrupts for PCINT23 - PCINT16
+	PCICR |= (1 << PCIE2);
 	
-	// Enable local interrupt for INT0
-	EIMSK |= (1 << INT0);
-	
-	// Enable interrupts for PCINT14 - PCINT8 and PCINT23 - PCINT16
-	PCICR |= ((1 << PCIE1) | (1 << PCIE2));
-	
-	// Enable interrupt for PCINT8 and PCINT17
-	PCMSK1 |= (1 << PCINT8);
+	// Enable interrupt for PCINT17
 	PCMSK2 |= (1 << PCINT17);
+	
+	TCCR0B |= ((1 << CS01) | (1 << CS02));
+	TCNT0 = 6;
+	TIMSK0 |= (1 << TOIE0);
+	
 	
 	// Enable global interrupt
 	sei();
@@ -96,19 +110,45 @@ int main(void){
 	count = 8;
 
 	while(1){
-		if(running){
-			if(count) {
-				count--;			
-				setLEDS();	
-			} else {
-				// Trigger interrupt
-				PORTD ^= (1 << PORTD1);
-				// If we would want to set leds here, the interrupt might not have been called yet
-				// so we would have to put 4 noop here  
-			} 
+		if(eventIsSet(CHECK_BUTTON)) {
+			checkButtons();
+			clearEvent(CHECK_BUTTON);
 		}
-		_delay_ms(1000);
+		if (eventIsSet(COUNTDOWN_EV)){
+			countdown():
+			clearEvent(COUNTDOWN_EV);
+		}
+		//_delay_ms(1000);
 	}
+}
+
+void countdown() {
+	if(running) {
+		if(count) {
+			count--;
+			setLEDS();
+		} else {
+			// Trigger interrupt
+			PORTD |= (1 << PORTD1);
+		}
+	}
+}
+
+void checkButtons(){
+	uint8_t resetButtonPressed = (~PINC) & (1 << PINC0);
+	if (buttonReset && !resetButtonPressed) {
+		running = 0;
+		getDipValues();
+		setLEDS();
+	}
+	buttonReset = resetButtonPressed;
+	
+	uint8_t startButtonPressed = (~PINB) & (1 << PINB0);
+	if (buttonStart && !startButtonPressed) {
+		running = 1;
+	}
+	buttonStart = startButtonPressed;
+	
 }
 
 void getDipValues() {
