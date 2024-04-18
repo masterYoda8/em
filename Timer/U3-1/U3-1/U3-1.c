@@ -17,6 +17,12 @@
 	DIP2 AN PD5
 */
 
+//DEBUG
+//PORTD &= ~(1 << DEBUG_LED_VAL);
+//_delay_ms(100);
+// PORTD |= (1 << DEBUG_LED_VAL);
+// DEBUG END
+
 #define LED0_MODE DDB0
 #define LED0_VAL PORTB0
 #define LED1_MODE DDB1
@@ -40,44 +46,40 @@
 
 void getDipValues();
 void setLEDS();
+void countdown();
+void checkButtons();
 
 // If the counter is running or not
 volatile uint8_t running = 1;
 volatile uint8_t count;
-volatile uint8_t buttonReset = 1;
-volatile uint8_t buttonStart = 1;
+// 0 = no press
+volatile uint8_t buttonReset = 0;
+volatile uint8_t buttonStart = 0;
 
 event_type CHECK_BUTTON = 1;
 event_type COUNTDOWN_EV = 2;
 
+// Timer Interrupts are thrown every 1 ms
 ISR(TIMER0_OVF_vect){
-	static uint16_t countdown = 1000;
-	countdown--;
+	static uint16_t counter = 1000;
+	counter--;
 	
-	if (!(countdown % 50)) {
+	// every 50ms
+	if (!(counter % 50)) {
 		setEvent(CHECK_BUTTON);
 	}
-	
-	if(!countdown) {
+	// every 1s = 1000ms
+	if(!counter) {
 		setEvent(COUNTDOWN_EV);
-		countdown = 1000;
+		counter = 1000;
 	}
 	
 	TCNT0 = 6;
 }
 
 ISR(PCINT2_vect){
-	uint8_t softwareInterrupt = (PORTD & (1 << PORTD1));
-	if (softwareInterrupt) {
-			//DEBUG
-			//PORTD &= ~(1 << DEBUG_LED_VAL);
-			//_delay_ms(100);
-			//PORTD |= (1 << DEBUG_LED_VAL);
-			//DEBUG END
-			count = 7;
-			PORTD &= ~(1 << PORTD1);
-			setLEDS();
-	}
+	count = 7;
+	setLEDS();
 }
 
 int main(void){
@@ -99,10 +101,13 @@ int main(void){
 	// Enable interrupt for PCINT17
 	PCMSK2 |= (1 << PCINT17);
 	
-	TCCR0B |= ((1 << CS01) | (1 << CS02));
-	TCNT0 = 6;
-	TIMSK0 |= (1 << TOIE0);
+	// Timer: Prescaler CLK/64 --> 4 mikroseconds
+	TCCR0B |= ((1 << CS01) | (1 << CS00));
 	
+	TCNT0 = 6;
+	
+	// Enable Timer Overflow Interrupt
+	TIMSK0 |= (1 << TOIE0);
 	
 	// Enable global interrupt
 	sei();
@@ -115,36 +120,37 @@ int main(void){
 			clearEvent(CHECK_BUTTON);
 		}
 		if (eventIsSet(COUNTDOWN_EV)){
-			countdown():
+			countdown();
 			clearEvent(COUNTDOWN_EV);
 		}
 		//_delay_ms(1000);
 	}
 }
 
-void countdown() {
+void countdown(){
 	if(running) {
 		if(count) {
 			count--;
 			setLEDS();
 		} else {
 			// Trigger interrupt
-			PORTD |= (1 << PORTD1);
+			PORTD ^= (1 << PORTD1);
 		}
 	}
 }
 
 void checkButtons(){
-	uint8_t resetButtonPressed = (~PINC) & (1 << PINC0);
-	if (buttonReset && !resetButtonPressed) {
+	uint8_t resetButtonPressed = (~PINC) & (1 << TASTER_A3);
+	
+	if (!buttonReset && resetButtonPressed) {
 		running = 0;
 		getDipValues();
 		setLEDS();
 	}
 	buttonReset = resetButtonPressed;
 	
-	uint8_t startButtonPressed = (~PINB) & (1 << PINB0);
-	if (buttonStart && !startButtonPressed) {
+	uint8_t startButtonPressed = (~PIND) & (1 << TASTER_A4);
+	if (!buttonStart && startButtonPressed) {
 		running = 1;
 	}
 	buttonStart = startButtonPressed;
