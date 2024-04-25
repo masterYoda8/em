@@ -1,0 +1,728 @@
+
+U3-2.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000002  00800100  000003f0  00000484  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         000003f0  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          0000003a  00800102  00800102  00000486  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  00000486  2**0
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000070  00000000  00000000  000004b6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000004cc  00000000  00000000  00000526  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000275  00000000  00000000  000009f2  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   000001c7  00000000  00000000  00000c67  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000184  00000000  00000000  00000e30  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    0000024e  00000000  00000000  00000fb4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000357  00000000  00000000  00001202  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000078  00000000  00000000  00001559  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+   8:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+   c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  10:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  14:	0c 94 98 01 	jmp	0x330	; 0x330 <__vector_5>
+  18:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  1c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  20:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  24:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  28:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  2c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  30:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  34:	0c 94 53 00 	jmp	0xa6	; 0xa6 <__vector_13>
+  38:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  3c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  40:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  44:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  48:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  4c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  50:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  54:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  58:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  5c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  60:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  64:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+
+00000074 <__do_copy_data>:
+  74:	11 e0       	ldi	r17, 0x01	; 1
+  76:	a0 e0       	ldi	r26, 0x00	; 0
+  78:	b1 e0       	ldi	r27, 0x01	; 1
+  7a:	e0 ef       	ldi	r30, 0xF0	; 240
+  7c:	f3 e0       	ldi	r31, 0x03	; 3
+  7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
+  80:	05 90       	lpm	r0, Z+
+  82:	0d 92       	st	X+, r0
+  84:	a2 30       	cpi	r26, 0x02	; 2
+  86:	b1 07       	cpc	r27, r17
+  88:	d9 f7       	brne	.-10     	; 0x80 <__do_copy_data+0xc>
+
+0000008a <__do_clear_bss>:
+  8a:	21 e0       	ldi	r18, 0x01	; 1
+  8c:	a2 e0       	ldi	r26, 0x02	; 2
+  8e:	b1 e0       	ldi	r27, 0x01	; 1
+  90:	01 c0       	rjmp	.+2      	; 0x94 <.do_clear_bss_start>
+
+00000092 <.do_clear_bss_loop>:
+  92:	1d 92       	st	X+, r1
+
+00000094 <.do_clear_bss_start>:
+  94:	ac 33       	cpi	r26, 0x3C	; 60
+  96:	b2 07       	cpc	r27, r18
+  98:	e1 f7       	brne	.-8      	; 0x92 <.do_clear_bss_loop>
+  9a:	0e 94 4c 01 	call	0x298	; 0x298 <main>
+  9e:	0c 94 f6 01 	jmp	0x3ec	; 0x3ec <_exit>
+
+000000a2 <__bad_interrupt>:
+  a2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+000000a6 <__vector_13>:
+
+// Create Timer Array for timer handling
+volatile timerObject timerArray[5] = {{0}};
+
+// Timer Interrupts are thrown every 100 microsecond
+ISR(TIMER1_OVF_vect){
+  a6:	1f 92       	push	r1
+  a8:	0f 92       	push	r0
+  aa:	0f b6       	in	r0, 0x3f	; 63
+  ac:	0f 92       	push	r0
+  ae:	11 24       	eor	r1, r1
+  b0:	df 92       	push	r13
+  b2:	ef 92       	push	r14
+  b4:	ff 92       	push	r15
+  b6:	0f 93       	push	r16
+  b8:	1f 93       	push	r17
+  ba:	2f 93       	push	r18
+  bc:	3f 93       	push	r19
+  be:	4f 93       	push	r20
+  c0:	5f 93       	push	r21
+  c2:	6f 93       	push	r22
+  c4:	7f 93       	push	r23
+  c6:	8f 93       	push	r24
+  c8:	9f 93       	push	r25
+  ca:	af 93       	push	r26
+  cc:	bf 93       	push	r27
+  ce:	ef 93       	push	r30
+  d0:	ff 93       	push	r31
+  d2:	cf 93       	push	r28
+  d4:	df 93       	push	r29
+  d6:	cd b7       	in	r28, 0x3d	; 61
+  d8:	de b7       	in	r29, 0x3e	; 62
+  da:	25 97       	sbiw	r28, 0x05	; 5
+  dc:	de bf       	out	0x3e, r29	; 62
+  de:	cd bf       	out	0x3d, r28	; 61
+	TCNT1 = TIMER_START_VAL;
+  e0:	87 e3       	ldi	r24, 0x37	; 55
+  e2:	9f ef       	ldi	r25, 0xFF	; 255
+  e4:	90 93 85 00 	sts	0x0085, r25
+  e8:	80 93 84 00 	sts	0x0084, r24
+	return timerArray[timer].running;
+}
+
+inline void handleTimer(){
+	// Local array for single callback handle if duplicate call to handleTimer occurs (fast interrupts)
+	bool executeCallback[5] = {0};
+  ec:	fe 01       	movw	r30, r28
+  ee:	31 96       	adiw	r30, 0x01	; 1
+  f0:	85 e0       	ldi	r24, 0x05	; 5
+  f2:	df 01       	movw	r26, r30
+  f4:	1d 92       	st	X+, r1
+  f6:	8a 95       	dec	r24
+  f8:	e9 f7       	brne	.-6      	; 0xf4 <__vector_13+0x4e>
+  fa:	20 e0       	ldi	r18, 0x00	; 0
+  fc:	30 e0       	ldi	r19, 0x00	; 0
+	// Enable Timer Overflow Interrupt
+	TIMSK1 |= (1 << TOIE1);
+}
+
+inline bool isRunning(timerType timer) {
+	return timerArray[timer].running;
+  fe:	6b e0       	ldi	r22, 0x0B	; 11
+	bool executeCallback[5] = {0};
+	for(uint8_t i = 0; i<5; i++) {
+		if(isRunning(i)) {
+			if (timerArray[i].timeLeft <= 100) {
+				timerArray[i].timeLeft = timerArray[i].interval;
+				executeCallback[i] = true;
+ 100:	71 e0       	ldi	r23, 0x01	; 1
+	// Enable Timer Overflow Interrupt
+	TIMSK1 |= (1 << TOIE1);
+}
+
+inline bool isRunning(timerType timer) {
+	return timerArray[timer].running;
+ 102:	62 9f       	mul	r22, r18
+ 104:	f0 01       	movw	r30, r0
+ 106:	63 9f       	mul	r22, r19
+ 108:	f0 0d       	add	r31, r0
+ 10a:	11 24       	eor	r1, r1
+ 10c:	ec 5f       	subi	r30, 0xFC	; 252
+ 10e:	fe 4f       	sbci	r31, 0xFE	; 254
+ 110:	80 81       	ld	r24, Z
+
+inline void handleTimer(){
+	// Local array for single callback handle if duplicate call to handleTimer occurs (fast interrupts)
+	bool executeCallback[5] = {0};
+	for(uint8_t i = 0; i<5; i++) {
+		if(isRunning(i)) {
+ 112:	88 23       	and	r24, r24
+ 114:	d1 f1       	breq	.+116    	; 0x18a <__vector_13+0xe4>
+			if (timerArray[i].timeLeft <= 100) {
+ 116:	62 9f       	mul	r22, r18
+ 118:	f0 01       	movw	r30, r0
+ 11a:	63 9f       	mul	r22, r19
+ 11c:	f0 0d       	add	r31, r0
+ 11e:	11 24       	eor	r1, r1
+ 120:	ec 5f       	subi	r30, 0xFC	; 252
+ 122:	fe 4f       	sbci	r31, 0xFE	; 254
+ 124:	87 81       	ldd	r24, Z+7	; 0x07
+ 126:	90 85       	ldd	r25, Z+8	; 0x08
+ 128:	a1 85       	ldd	r26, Z+9	; 0x09
+ 12a:	b2 85       	ldd	r27, Z+10	; 0x0a
+ 12c:	85 36       	cpi	r24, 0x65	; 101
+ 12e:	91 05       	cpc	r25, r1
+ 130:	a1 05       	cpc	r26, r1
+ 132:	b1 05       	cpc	r27, r1
+ 134:	b8 f4       	brcc	.+46     	; 0x164 <__vector_13+0xbe>
+				timerArray[i].timeLeft = timerArray[i].interval;
+ 136:	62 9f       	mul	r22, r18
+ 138:	f0 01       	movw	r30, r0
+ 13a:	63 9f       	mul	r22, r19
+ 13c:	f0 0d       	add	r31, r0
+ 13e:	11 24       	eor	r1, r1
+ 140:	ec 5f       	subi	r30, 0xFC	; 252
+ 142:	fe 4f       	sbci	r31, 0xFE	; 254
+ 144:	83 81       	ldd	r24, Z+3	; 0x03
+ 146:	94 81       	ldd	r25, Z+4	; 0x04
+ 148:	a5 81       	ldd	r26, Z+5	; 0x05
+ 14a:	b6 81       	ldd	r27, Z+6	; 0x06
+ 14c:	87 83       	std	Z+7, r24	; 0x07
+ 14e:	90 87       	std	Z+8, r25	; 0x08
+ 150:	a1 87       	std	Z+9, r26	; 0x09
+ 152:	b2 87       	std	Z+10, r27	; 0x0a
+ 154:	e1 e0       	ldi	r30, 0x01	; 1
+ 156:	f0 e0       	ldi	r31, 0x00	; 0
+ 158:	ec 0f       	add	r30, r28
+ 15a:	fd 1f       	adc	r31, r29
+ 15c:	e2 0f       	add	r30, r18
+ 15e:	f3 1f       	adc	r31, r19
+				executeCallback[i] = true;
+ 160:	70 83       	st	Z, r23
+ 162:	13 c0       	rjmp	.+38     	; 0x18a <__vector_13+0xe4>
+			} else {
+				timerArray[i].timeLeft -= 100;
+ 164:	62 9f       	mul	r22, r18
+ 166:	f0 01       	movw	r30, r0
+ 168:	63 9f       	mul	r22, r19
+ 16a:	f0 0d       	add	r31, r0
+ 16c:	11 24       	eor	r1, r1
+ 16e:	ec 5f       	subi	r30, 0xFC	; 252
+ 170:	fe 4f       	sbci	r31, 0xFE	; 254
+ 172:	87 81       	ldd	r24, Z+7	; 0x07
+ 174:	90 85       	ldd	r25, Z+8	; 0x08
+ 176:	a1 85       	ldd	r26, Z+9	; 0x09
+ 178:	b2 85       	ldd	r27, Z+10	; 0x0a
+ 17a:	84 56       	subi	r24, 0x64	; 100
+ 17c:	91 09       	sbc	r25, r1
+ 17e:	a1 09       	sbc	r26, r1
+ 180:	b1 09       	sbc	r27, r1
+ 182:	87 83       	std	Z+7, r24	; 0x07
+ 184:	90 87       	std	Z+8, r25	; 0x08
+ 186:	a1 87       	std	Z+9, r26	; 0x09
+ 188:	b2 87       	std	Z+10, r27	; 0x0a
+ 18a:	2f 5f       	subi	r18, 0xFF	; 255
+ 18c:	3f 4f       	sbci	r19, 0xFF	; 255
+}
+
+inline void handleTimer(){
+	// Local array for single callback handle if duplicate call to handleTimer occurs (fast interrupts)
+	bool executeCallback[5] = {0};
+	for(uint8_t i = 0; i<5; i++) {
+ 18e:	25 30       	cpi	r18, 0x05	; 5
+ 190:	31 05       	cpc	r19, r1
+ 192:	09 f0       	breq	.+2      	; 0x196 <__vector_13+0xf0>
+ 194:	b6 cf       	rjmp	.-148    	; 0x102 <__vector_13+0x5c>
+			} else {
+				timerArray[i].timeLeft -= 100;
+			}
+		}
+	}
+	sei();
+ 196:	78 94       	sei
+ 198:	fe 01       	movw	r30, r28
+ 19a:	31 96       	adiw	r30, 0x01	; 1
+ 19c:	7f 01       	movw	r14, r30
+ 19e:	00 e0       	ldi	r16, 0x00	; 0
+ 1a0:	10 e0       	ldi	r17, 0x00	; 0
+	for(uint8_t i = 0; i<5; i++) {
+		if(executeCallback[i]) {
+			timerArray[i].callback();
+ 1a2:	0f 2e       	mov	r0, r31
+ 1a4:	fb e0       	ldi	r31, 0x0B	; 11
+ 1a6:	df 2e       	mov	r13, r31
+ 1a8:	f0 2d       	mov	r31, r0
+			}
+		}
+	}
+	sei();
+	for(uint8_t i = 0; i<5; i++) {
+		if(executeCallback[i]) {
+ 1aa:	d7 01       	movw	r26, r14
+ 1ac:	8d 91       	ld	r24, X+
+ 1ae:	7d 01       	movw	r14, r26
+ 1b0:	88 23       	and	r24, r24
+ 1b2:	59 f0       	breq	.+22     	; 0x1ca <__vector_13+0x124>
+			timerArray[i].callback();
+ 1b4:	d0 9e       	mul	r13, r16
+ 1b6:	f0 01       	movw	r30, r0
+ 1b8:	d1 9e       	mul	r13, r17
+ 1ba:	f0 0d       	add	r31, r0
+ 1bc:	11 24       	eor	r1, r1
+ 1be:	ec 5f       	subi	r30, 0xFC	; 252
+ 1c0:	fe 4f       	sbci	r31, 0xFE	; 254
+ 1c2:	01 80       	ldd	r0, Z+1	; 0x01
+ 1c4:	f2 81       	ldd	r31, Z+2	; 0x02
+ 1c6:	e0 2d       	mov	r30, r0
+ 1c8:	09 95       	icall
+ 1ca:	0f 5f       	subi	r16, 0xFF	; 255
+ 1cc:	1f 4f       	sbci	r17, 0xFF	; 255
+				timerArray[i].timeLeft -= 100;
+			}
+		}
+	}
+	sei();
+	for(uint8_t i = 0; i<5; i++) {
+ 1ce:	05 30       	cpi	r16, 0x05	; 5
+ 1d0:	11 05       	cpc	r17, r1
+ 1d2:	59 f7       	brne	.-42     	; 0x1aa <__vector_13+0x104>
+
+// Timer Interrupts are thrown every 100 microsecond
+ISR(TIMER1_OVF_vect){
+	TCNT1 = TIMER_START_VAL;
+	handleTimer();
+}
+ 1d4:	0f 90       	pop	r0
+ 1d6:	0f 90       	pop	r0
+ 1d8:	0f 90       	pop	r0
+ 1da:	0f 90       	pop	r0
+ 1dc:	0f 90       	pop	r0
+ 1de:	df 91       	pop	r29
+ 1e0:	cf 91       	pop	r28
+ 1e2:	ff 91       	pop	r31
+ 1e4:	ef 91       	pop	r30
+ 1e6:	bf 91       	pop	r27
+ 1e8:	af 91       	pop	r26
+ 1ea:	9f 91       	pop	r25
+ 1ec:	8f 91       	pop	r24
+ 1ee:	7f 91       	pop	r23
+ 1f0:	6f 91       	pop	r22
+ 1f2:	5f 91       	pop	r21
+ 1f4:	4f 91       	pop	r20
+ 1f6:	3f 91       	pop	r19
+ 1f8:	2f 91       	pop	r18
+ 1fa:	1f 91       	pop	r17
+ 1fc:	0f 91       	pop	r16
+ 1fe:	ff 90       	pop	r15
+ 200:	ef 90       	pop	r14
+ 202:	df 90       	pop	r13
+ 204:	0f 90       	pop	r0
+ 206:	0f be       	out	0x3f, r0	; 63
+ 208:	0f 90       	pop	r0
+ 20a:	1f 90       	pop	r1
+ 20c:	18 95       	reti
+
+0000020e <timer_init>:
+
+// Configure registers for timer interrupt and prescaler
+void timer_init() {
+	// Timer1: Prescaler CLK/8 --> 0,5 mikroseconds
+	TCCR1B |= (1 << CS11);
+ 20e:	e1 e8       	ldi	r30, 0x81	; 129
+ 210:	f0 e0       	ldi	r31, 0x00	; 0
+ 212:	80 81       	ld	r24, Z
+ 214:	82 60       	ori	r24, 0x02	; 2
+ 216:	80 83       	st	Z, r24
+	// Set start value for timer --> timer interrupt every 100 microseconds
+	TCNT1 = TIMER_START_VAL;
+ 218:	87 e3       	ldi	r24, 0x37	; 55
+ 21a:	9f ef       	ldi	r25, 0xFF	; 255
+ 21c:	90 93 85 00 	sts	0x0085, r25
+ 220:	80 93 84 00 	sts	0x0084, r24
+	// Enable Timer Overflow Interrupt
+	TIMSK1 |= (1 << TOIE1);
+ 224:	ef e6       	ldi	r30, 0x6F	; 111
+ 226:	f0 e0       	ldi	r31, 0x00	; 0
+ 228:	80 81       	ld	r24, Z
+ 22a:	81 60       	ori	r24, 0x01	; 1
+ 22c:	80 83       	st	Z, r24
+ 22e:	08 95       	ret
+
+00000230 <declareTimer>:
+}
+
+inline bool isRunning(timerType timer) {
+	return timerArray[timer].running;
+ 230:	a8 2f       	mov	r26, r24
+ 232:	b0 e0       	ldi	r27, 0x00	; 0
+ 234:	9b e0       	ldi	r25, 0x0B	; 11
+ 236:	89 9f       	mul	r24, r25
+ 238:	f0 01       	movw	r30, r0
+ 23a:	11 24       	eor	r1, r1
+ 23c:	ec 5f       	subi	r30, 0xFC	; 252
+ 23e:	fe 4f       	sbci	r31, 0xFE	; 254
+ 240:	80 81       	ld	r24, Z
+		}
+	}
+}
+
+void declareTimer(timerType timer, uint32_t interval, void (*callback)(void)) {
+	if(!isRunning(timer)) {
+ 242:	81 11       	cpse	r24, r1
+ 244:	12 c0       	rjmp	.+36     	; 0x26a <declareTimer+0x3a>
+		timerArray[timer].interval = interval;
+ 246:	8b e0       	ldi	r24, 0x0B	; 11
+ 248:	8a 9f       	mul	r24, r26
+ 24a:	f0 01       	movw	r30, r0
+ 24c:	8b 9f       	mul	r24, r27
+ 24e:	f0 0d       	add	r31, r0
+ 250:	11 24       	eor	r1, r1
+ 252:	ec 5f       	subi	r30, 0xFC	; 252
+ 254:	fe 4f       	sbci	r31, 0xFE	; 254
+ 256:	43 83       	std	Z+3, r20	; 0x03
+ 258:	54 83       	std	Z+4, r21	; 0x04
+ 25a:	65 83       	std	Z+5, r22	; 0x05
+ 25c:	76 83       	std	Z+6, r23	; 0x06
+		timerArray[timer].timeLeft = interval;
+ 25e:	47 83       	std	Z+7, r20	; 0x07
+ 260:	50 87       	std	Z+8, r21	; 0x08
+ 262:	61 87       	std	Z+9, r22	; 0x09
+ 264:	72 87       	std	Z+10, r23	; 0x0a
+		timerArray[timer].callback = callback;
+ 266:	32 83       	std	Z+2, r19	; 0x02
+ 268:	21 83       	std	Z+1, r18	; 0x01
+ 26a:	08 95       	ret
+
+0000026c <startTimer>:
+	// Enable Timer Overflow Interrupt
+	TIMSK1 |= (1 << TOIE1);
+}
+
+inline bool isRunning(timerType timer) {
+	return timerArray[timer].running;
+ 26c:	28 2f       	mov	r18, r24
+ 26e:	30 e0       	ldi	r19, 0x00	; 0
+ 270:	9b e0       	ldi	r25, 0x0B	; 11
+ 272:	89 9f       	mul	r24, r25
+ 274:	f0 01       	movw	r30, r0
+ 276:	11 24       	eor	r1, r1
+ 278:	ec 5f       	subi	r30, 0xFC	; 252
+ 27a:	fe 4f       	sbci	r31, 0xFE	; 254
+ 27c:	80 81       	ld	r24, Z
+		timerArray[timer].callback = callback;
+	}
+}
+
+void startTimer(timerType timer) {
+	if(!isRunning(timer)) {
+ 27e:	81 11       	cpse	r24, r1
+ 280:	0a c0       	rjmp	.+20     	; 0x296 <startTimer+0x2a>
+		timerArray[timer].running = 1;
+ 282:	8b e0       	ldi	r24, 0x0B	; 11
+ 284:	82 9f       	mul	r24, r18
+ 286:	f0 01       	movw	r30, r0
+ 288:	83 9f       	mul	r24, r19
+ 28a:	f0 0d       	add	r31, r0
+ 28c:	11 24       	eor	r1, r1
+ 28e:	ec 5f       	subi	r30, 0xFC	; 252
+ 290:	fe 4f       	sbci	r31, 0xFE	; 254
+ 292:	81 e0       	ldi	r24, 0x01	; 1
+ 294:	80 83       	st	Z, r24
+ 296:	08 95       	ret
+
+00000298 <main>:
+	setLEDS();
+}
+
+int main(void){
+	// Debug LED
+	DDRD |= (1 << DEBUG_LED_MODE);
+ 298:	50 9a       	sbi	0x0a, 0	; 10
+	PORTD |= (1 << DEBUG_LED_VAL); 
+ 29a:	58 9a       	sbi	0x0b, 0	; 11
+	
+	
+	// Activate Output and Input Pullups and init
+	DDRB |= ((1 << LED0_MODE) | (1 << LED1_MODE) | (1 << LED2_MODE));
+ 29c:	84 b1       	in	r24, 0x04	; 4
+ 29e:	87 60       	ori	r24, 0x07	; 7
+ 2a0:	84 b9       	out	0x04, r24	; 4
+	DDRD |= (1 << PORTD1);
+ 2a2:	51 9a       	sbi	0x0a, 1	; 10
+	PORTB &= ~((1 << LED0_VAL) | (1 << LED1_VAL) | (1 << LED2_VAL));
+ 2a4:	85 b1       	in	r24, 0x05	; 5
+ 2a6:	88 7f       	andi	r24, 0xF8	; 248
+ 2a8:	85 b9       	out	0x05, r24	; 5
+	PORTD |= ((1 << DIP0_PULL_UP) | (1 << DIP1_PULL_UP) | (1 << DIP2_PULL_UP) | (1 << TASTER_A4_PULL_UP));
+ 2aa:	8b b1       	in	r24, 0x0b	; 11
+ 2ac:	8c 63       	ori	r24, 0x3C	; 60
+ 2ae:	8b b9       	out	0x0b, r24	; 11
+	PORTC |= (1 << TASTER_A3_PULL_UP);
+ 2b0:	40 9a       	sbi	0x08, 0	; 8
+	
+	// Enable interrupts for PCINT23 - PCINT16
+	PCICR |= (1 << PCIE2);
+ 2b2:	e8 e6       	ldi	r30, 0x68	; 104
+ 2b4:	f0 e0       	ldi	r31, 0x00	; 0
+ 2b6:	80 81       	ld	r24, Z
+ 2b8:	84 60       	ori	r24, 0x04	; 4
+ 2ba:	80 83       	st	Z, r24
+	
+	// Enable interrupt for PCINT17
+	PCMSK2 |= (1 << PCINT17);
+ 2bc:	ed e6       	ldi	r30, 0x6D	; 109
+ 2be:	f0 e0       	ldi	r31, 0x00	; 0
+ 2c0:	80 81       	ld	r24, Z
+ 2c2:	82 60       	ori	r24, 0x02	; 2
+ 2c4:	80 83       	st	Z, r24
+	
+	timer_init();
+ 2c6:	0e 94 07 01 	call	0x20e	; 0x20e <timer_init>
+	// Declare 50 ms timer for button flank detection
+	declareTimer(TIMER1, 50000, checkButtons);
+ 2ca:	24 ed       	ldi	r18, 0xD4	; 212
+ 2cc:	31 e0       	ldi	r19, 0x01	; 1
+ 2ce:	40 e5       	ldi	r20, 0x50	; 80
+ 2d0:	53 ec       	ldi	r21, 0xC3	; 195
+ 2d2:	60 e0       	ldi	r22, 0x00	; 0
+ 2d4:	70 e0       	ldi	r23, 0x00	; 0
+ 2d6:	80 e0       	ldi	r24, 0x00	; 0
+ 2d8:	0e 94 18 01 	call	0x230	; 0x230 <declareTimer>
+	// Declare 1s timer for counting down
+	declareTimer(TIMER2, 1000000, countdown);
+ 2dc:	2f eb       	ldi	r18, 0xBF	; 191
+ 2de:	31 e0       	ldi	r19, 0x01	; 1
+ 2e0:	40 e4       	ldi	r20, 0x40	; 64
+ 2e2:	52 e4       	ldi	r21, 0x42	; 66
+ 2e4:	6f e0       	ldi	r22, 0x0F	; 15
+ 2e6:	70 e0       	ldi	r23, 0x00	; 0
+ 2e8:	81 e0       	ldi	r24, 0x01	; 1
+ 2ea:	0e 94 18 01 	call	0x230	; 0x230 <declareTimer>
+
+	// Enable global interrupt
+	sei();
+ 2ee:	78 94       	sei
+
+	count = 8;
+ 2f0:	88 e0       	ldi	r24, 0x08	; 8
+ 2f2:	80 93 3b 01 	sts	0x013B, r24
+	
+	startTimer(TIMER1);
+ 2f6:	80 e0       	ldi	r24, 0x00	; 0
+ 2f8:	0e 94 36 01 	call	0x26c	; 0x26c <startTimer>
+	startTimer(TIMER2);
+ 2fc:	81 e0       	ldi	r24, 0x01	; 1
+ 2fe:	0e 94 36 01 	call	0x26c	; 0x26c <startTimer>
+ 302:	ff cf       	rjmp	.-2      	; 0x302 <main+0x6a>
+
+00000304 <getDipValues>:
+	buttonStart = startButtonPressed;
+	
+}
+
+void getDipValues() {
+	count = (~PIND >> 3); 
+ 304:	89 b1       	in	r24, 0x09	; 9
+ 306:	90 e0       	ldi	r25, 0x00	; 0
+ 308:	80 95       	com	r24
+ 30a:	90 95       	com	r25
+ 30c:	95 95       	asr	r25
+ 30e:	87 95       	ror	r24
+ 310:	95 95       	asr	r25
+ 312:	87 95       	ror	r24
+ 314:	95 95       	asr	r25
+ 316:	87 95       	ror	r24
+ 318:	80 93 3b 01 	sts	0x013B, r24
+ 31c:	08 95       	ret
+
+0000031e <setLEDS>:
+}
+
+void setLEDS() {
+	uint8_t tmp = PORTB;
+ 31e:	95 b1       	in	r25, 0x05	; 5
+	// 11111000 -> Clear last 3 bits
+	tmp &= 0xF8;
+	// 00000XXX -> Set count on tmp without modifying first 5 bits
+	tmp |= (~count & 0x07);
+ 320:	80 91 3b 01 	lds	r24, 0x013B
+ 324:	80 95       	com	r24
+ 326:	87 70       	andi	r24, 0x07	; 7
+}
+
+void setLEDS() {
+	uint8_t tmp = PORTB;
+	// 11111000 -> Clear last 3 bits
+	tmp &= 0xF8;
+ 328:	98 7f       	andi	r25, 0xF8	; 248
+	// 00000XXX -> Set count on tmp without modifying first 5 bits
+	tmp |= (~count & 0x07);
+ 32a:	89 2b       	or	r24, r25
+	PORTB = tmp;
+ 32c:	85 b9       	out	0x05, r24	; 5
+ 32e:	08 95       	ret
+
+00000330 <__vector_5>:
+volatile uint8_t count;
+// 0 = no press
+volatile uint8_t buttonReset = 0;
+volatile uint8_t buttonStart = 0;
+
+ISR(PCINT2_vect){
+ 330:	1f 92       	push	r1
+ 332:	0f 92       	push	r0
+ 334:	0f b6       	in	r0, 0x3f	; 63
+ 336:	0f 92       	push	r0
+ 338:	11 24       	eor	r1, r1
+ 33a:	2f 93       	push	r18
+ 33c:	3f 93       	push	r19
+ 33e:	4f 93       	push	r20
+ 340:	5f 93       	push	r21
+ 342:	6f 93       	push	r22
+ 344:	7f 93       	push	r23
+ 346:	8f 93       	push	r24
+ 348:	9f 93       	push	r25
+ 34a:	af 93       	push	r26
+ 34c:	bf 93       	push	r27
+ 34e:	ef 93       	push	r30
+ 350:	ff 93       	push	r31
+	count = 7;
+ 352:	87 e0       	ldi	r24, 0x07	; 7
+ 354:	80 93 3b 01 	sts	0x013B, r24
+	setLEDS();
+ 358:	0e 94 8f 01 	call	0x31e	; 0x31e <setLEDS>
+}
+ 35c:	ff 91       	pop	r31
+ 35e:	ef 91       	pop	r30
+ 360:	bf 91       	pop	r27
+ 362:	af 91       	pop	r26
+ 364:	9f 91       	pop	r25
+ 366:	8f 91       	pop	r24
+ 368:	7f 91       	pop	r23
+ 36a:	6f 91       	pop	r22
+ 36c:	5f 91       	pop	r21
+ 36e:	4f 91       	pop	r20
+ 370:	3f 91       	pop	r19
+ 372:	2f 91       	pop	r18
+ 374:	0f 90       	pop	r0
+ 376:	0f be       	out	0x3f, r0	; 63
+ 378:	0f 90       	pop	r0
+ 37a:	1f 90       	pop	r1
+ 37c:	18 95       	reti
+
+0000037e <countdown>:
+	while(1){
+	}
+}
+
+void countdown(){
+	if(running) {
+ 37e:	80 91 00 01 	lds	r24, 0x0100
+ 382:	88 23       	and	r24, r24
+ 384:	81 f0       	breq	.+32     	; 0x3a6 <countdown+0x28>
+		if(count) {
+ 386:	80 91 3b 01 	lds	r24, 0x013B
+ 38a:	88 23       	and	r24, r24
+ 38c:	41 f0       	breq	.+16     	; 0x39e <countdown+0x20>
+			count--;
+ 38e:	80 91 3b 01 	lds	r24, 0x013B
+ 392:	81 50       	subi	r24, 0x01	; 1
+ 394:	80 93 3b 01 	sts	0x013B, r24
+			setLEDS();
+ 398:	0e 94 8f 01 	call	0x31e	; 0x31e <setLEDS>
+ 39c:	08 95       	ret
+		} else {
+			// Trigger interrupt
+			PORTD ^= (1 << PORTD1);
+ 39e:	9b b1       	in	r25, 0x0b	; 11
+ 3a0:	82 e0       	ldi	r24, 0x02	; 2
+ 3a2:	89 27       	eor	r24, r25
+ 3a4:	8b b9       	out	0x0b, r24	; 11
+ 3a6:	08 95       	ret
+
+000003a8 <checkButtons>:
+		}
+	}
+}
+
+void checkButtons(){
+ 3a8:	cf 93       	push	r28
+	uint8_t resetButtonPressed = (~PINC) & (1 << TASTER_A3);
+ 3aa:	c6 b1       	in	r28, 0x06	; 6
+ 3ac:	c0 95       	com	r28
+ 3ae:	c1 70       	andi	r28, 0x01	; 1
+	
+	if (!buttonReset && resetButtonPressed) {
+ 3b0:	80 91 03 01 	lds	r24, 0x0103
+ 3b4:	81 11       	cpse	r24, r1
+ 3b6:	08 c0       	rjmp	.+16     	; 0x3c8 <checkButtons+0x20>
+ 3b8:	cc 23       	and	r28, r28
+ 3ba:	31 f0       	breq	.+12     	; 0x3c8 <checkButtons+0x20>
+		running = 0;
+ 3bc:	10 92 00 01 	sts	0x0100, r1
+		getDipValues();
+ 3c0:	0e 94 82 01 	call	0x304	; 0x304 <getDipValues>
+		setLEDS();
+ 3c4:	0e 94 8f 01 	call	0x31e	; 0x31e <setLEDS>
+	}
+	buttonReset = resetButtonPressed;
+ 3c8:	c0 93 03 01 	sts	0x0103, r28
+	
+	uint8_t startButtonPressed = (~PIND) & (1 << TASTER_A4);
+ 3cc:	89 b1       	in	r24, 0x09	; 9
+ 3ce:	80 95       	com	r24
+ 3d0:	84 70       	andi	r24, 0x04	; 4
+	if (!buttonStart && startButtonPressed) {
+ 3d2:	90 91 02 01 	lds	r25, 0x0102
+ 3d6:	91 11       	cpse	r25, r1
+ 3d8:	05 c0       	rjmp	.+10     	; 0x3e4 <checkButtons+0x3c>
+ 3da:	88 23       	and	r24, r24
+ 3dc:	19 f0       	breq	.+6      	; 0x3e4 <checkButtons+0x3c>
+		running = 1;
+ 3de:	91 e0       	ldi	r25, 0x01	; 1
+ 3e0:	90 93 00 01 	sts	0x0100, r25
+	}
+	buttonStart = startButtonPressed;
+ 3e4:	80 93 02 01 	sts	0x0102, r24
+	
+}
+ 3e8:	cf 91       	pop	r28
+ 3ea:	08 95       	ret
+
+000003ec <_exit>:
+ 3ec:	f8 94       	cli
+
+000003ee <__stop_program>:
+ 3ee:	ff cf       	rjmp	.-2      	; 0x3ee <__stop_program>
