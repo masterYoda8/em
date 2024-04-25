@@ -61,12 +61,12 @@ int main(void){
 				running = 0;
 				getDipValues(&count);
 				setLEDS(&count);
-				goto start
+				goto start;
 			} 
 			// if not running and button A4 pressed
 			else if (!running && (~values) & 0x02){
 				running = 1;
-				goto start
+				goto start;
 			}
 			_delay_ms(100);
 		}

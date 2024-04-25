@@ -78,7 +78,7 @@ int main(void){
 			count = (!count) ? 7 : count - 1;
 			setLEDS();
 		}
-		_delay_ms(1000);
+      _delay_ms(1000);
 	}
 }
 
