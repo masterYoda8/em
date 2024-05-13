@@ -8,44 +8,39 @@
 #define F_CPU 16000000UL
 #define BAUDRATE 9600
 
-#define DEBUG_LED_MODE DDB0
-#define DEBUG_LED_VAL PORTB0
-
 #include "uart.h"
 #include <avr/io.h>
 
+void clearScreen(){
+	// Clear terminal
+	uart_send(27); // ESC
+	uart_send('[');
+	uart_send('2');
+	uart_send('J');
 
-//DEBUG
-//PORTD &= ~(1 << DEBUG_LED_VAL);
-//_delay_ms(100);
-// PORTD |= (1 << DEBUG_LED_VAL);
-// DEBUG END
+	// Move cursor to start
+	uart_send(27);
+	uart_send('[');
+	uart_send('H');
+}
 
 int main(void)
-{
-	// Debug LED
-	DDRD |= (1 << DEBUG_LED_MODE);
-	PORTD |= (1 << DEBUG_LED_VAL);
-	
-	sei();
-	/*
-	PORTD &= ~(1 << DEBUG_LED_VAL);
-	_delay_ms(1000);
-	PORTD |= (1 << DEBUG_LED_VAL);
-	*/
-	uint8_t t;
-	const char meldung[]="Hier Text:";
+{	
 	uart_init();
-	for(int f=0;meldung[f]!='\0';f++)
-	uart_send(meldung[f]);
-	while (1)
-	{
+	sei();
+	
+	const char meldung[]="Hit me:";
+	clearScreen();
+	for(int f = 0; meldung[f]!='\0'; f++) uart_send(meldung[f]);
+	
+	uint8_t t;
+	while (1){
 		t = uart_receive();
 		if (t == '\0') {
 			continue;
+			clearScreen();
 		}
 		uart_send(t);
 		_delay_ms(100);
-		
 	}
 }
