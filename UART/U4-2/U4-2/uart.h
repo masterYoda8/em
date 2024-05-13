@@ -59,6 +59,7 @@ typedef enum{
 } bool;
 
 
+
 void uart_init() {
 	// Configure baud rate
 	UBRR0H = (BAUD_CONST >> 8);
@@ -86,19 +87,15 @@ uint8_t uart_receive(){
 		return '\0';
 	}
 	
-	uint8_t returnVal = receiveBuffer[lastRead];
-	
-	uint8_t sreg = SREG;
-	cli();
+	uint8_t returnVal = receiveBuffer[lastRead];	
 	counter--;
-	
 	lastRead = (lastRead + 1) % 32;
 	
 	// If ring buffer elements are less than or equal to 10 allow sending
 	if (counter <= 10 && x_status == XOFF) {
 		send_xon();
 	}
-	SREG = sreg;
+
 	return returnVal;
 }
 
