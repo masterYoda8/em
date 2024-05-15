@@ -50,7 +50,7 @@ const char menuTextAction3[] PROGMEM = "3 - Configure Starting Time";
 const char menuTextAction4[] PROGMEM = "4 - Print Starting Time";
 const char menuTextInput[] PROGMEM = "Input (1-4): ";
 const char menuTextReturn[] PROGMEM = "Press RETURN to go back to Main Menu";
-const char menuTextConfigTime[] PROGMEM = "Input time in ms: ";
+const char menuTextConfigStartVal[] PROGMEM = "Input time in ms: ";
 
 const char* const menu[] PROGMEM = {menuTextHeader, menuTextDivider, menuTextAction, \
     menuTextAction1, menuTextAction2, menuTextAction3, menuTextAction4};
@@ -168,7 +168,7 @@ void getCommand(){
                 break;
             case 3:
                 // Configure starting time
-                sendPGMString(menuTextConfigTime);
+                sendPGMString(menuTextConfigStartVal);
                 uint8_t c;
                 do{
                   while((c = uart_receive()) == '\0') ;

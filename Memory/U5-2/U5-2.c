@@ -1,9 +1,9 @@
-
 #define F_CPU 16000000UL
 #define BAUDRATE 9600
 
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
+#include <avr/eeprom.h>
 #include <avr/io.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -59,7 +59,7 @@ volatile uint8_t running = 1;
 // The current count
 volatile uint8_t count;
 // The starting count (reset value)
-volatile uint8_t startingCount = 7;
+uint8_t startingCount EEMEM = 7;
 
 char msg[30] = {0};
 
@@ -78,7 +78,7 @@ int main(void){
 	sei();
 
     // Set LED to starting value
-    count = startingCount;
+    count = eeprom_read_byte(&startingCount);
     setLEDS();
 
 	while(1){
@@ -147,7 +147,7 @@ inline void getCommand(){
     switch(c){
         case 1:
             // Start Timer
-            count = startingCount;
+            count = eeprom_read_byte(&startingCount);
             setLEDS();
             startTimer(TIMER1);
             break;
@@ -170,8 +170,9 @@ inline void getCommand(){
                 sendCRLF();
                 sendPGMString(menuTextRunningInfo);
             } else {
-                startingCount = c - '0';
-                count = startingCount;
+                uint16_t newStartingCount = c - '0';
+                eeprom_write_byte(&startingCount, newStartingCount);
+                count = eeprom_read_byte(&startingCount);
                 setLEDS();
             }
             sendCRLF();

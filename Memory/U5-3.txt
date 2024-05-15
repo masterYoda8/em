@@ -1,0 +1,12 @@
+Nach: https://matthewtran.dev/2021/01/simple-eeprom-wear-leveling/
+
+Ein zusätzliches Bit pro Datensatz 
+
+- Bits sind immer eine Sequenz von Einsen gefolgt von Nullen oder anders herum
+- An der Stelle an der das Bit um schlägt wird der neuste Wert geschrieben
+- Beim Rollover wird das Bit geflipt
+
+- Beim Start kann entsprechend mit binärer Such gegenüber dem ersten Bit gesucht werden
+- Dann kann vom diesem Index aus einfach weiter geschrieben werden
+
+
