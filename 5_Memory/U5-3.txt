@@ -10,3 +10,4 @@ Ein zusätzliches Bit pro Datensatz
 - Dann kann vom diesem Index aus einfach weiter geschrieben werden
 
 
+--> Wird normalerweise mit Bäumen gemacht -> ganzes Filesystem

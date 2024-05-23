@@ -7,14 +7,14 @@ OBJCOPY = avr-objcopy
 CFLAGS = -std=c99 -Wall -g -O2 -mmcu=$(MCU) -DF_CPU=$(F_CPU) -I.
 PORT = usb
 TARGET = main
-SRCS = U5-2.c
+SRCS = U6-2.c
 
 all: 
 	$(CC) $(CFLAGS) $(SRCS) -o $(TARGET).bin
 	$(OBJCOPY) -j .text -j .data -O ihex $(TARGET).bin $(TARGET).hex
 
 flash:
-	avrdude -p $(MCU) -c usbasp -P $(PORT) -U flash:w:$(TARGET).hex:i -F -v -U eeprom:w:$(TARGET).eep:i
+	avrdude -p $(MCU) -c usbasp -P $(PORT) -U flash:w:$(TARGET).hex:i -F -v
 
 clean:
 	rm -f *.bin *.hex
