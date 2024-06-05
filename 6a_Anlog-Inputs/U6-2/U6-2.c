@@ -19,7 +19,10 @@ const char menuLine4[] PROGMEM = "Potentiometer: ";
 
 int main(){
 
+    // Store the ADC value
     uint16_t adcVal = 0;
+    // Necessary to store the temperature which can be negative
+    int8_t temp = 0;
     char msgVal[20] = {0};
 
     uart_init();
@@ -35,11 +38,12 @@ int main(){
         sendPGMString(menuLine3);
         adcRead(TEMPERATURE, &adcVal);
         
-        // Convert the temprature
-        // 242mV +45 + 1 LSB Offset Error
-        adcVal -= 288;
+        // Convert the temperature
+        // 242 mV = -45 °C
+        // 242mV + 45 + 1 LSB Offset Error
+        temp = adcVal - 288;
 
-        snprintf(msgVal, 20, "%d °C", (int16_t) adcVal);
+        snprintf(msgVal, 20, "%d °C", (int16_t) temp);
         sendString(msgVal);
         sendCRLF();
 
