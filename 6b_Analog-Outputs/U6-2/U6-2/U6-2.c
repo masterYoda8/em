@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
-
 #include "adc.h"
 
 #define POTIPIN A2
@@ -18,30 +17,28 @@ int main(){
     adcInit();
 
     // Init PWM Timer
-    
     TCNT0 = 0;
-    //TIMSK0 |= (1 << TOIE0);
     
-    // Fast PWM (WGM2:0 = 011) 1 kHz | 64 Prescaler (CS2:0 = 011)
+	// Set OCR0A | Inverted mode because LED is wired to 5V
+	OCR0A = 250;
+	OCR0B = 125;
+	TCCR0A |= ((1 << COM0B1) | (1 << COM0B0));
+	    
+	// OCR0B is on PD5
+	DDRD |= (1 << PD5);
+	
+    // Fast PWM (WGM2:0 = 111) 1 kHz | 64 Prescaler (CS2:0 = 011)
     TCCR0A |= ((1 << WGM01) | (1 << WGM00));
-    TCCR0B |= ((1 << CS01) | (1 << CS00));
-    
-    // Set OCR0A | Inverted mode because LED is wired to 5V
-    OCR0A = 127;
-    TCCR0A |= ((1 << COM0A1) | (1 << COM0A0));
-    
-    DDRD |= (1 << PD6);
+    TCCR0B |= ((1 << WGM02) | (1 << CS01) | (1 << CS00));
 
     sei();
-
-
     while (1){
         adcRead(POTIPIN, &adcVal);
 
         // Convert ADC to mV
-        // 256 / (2^10)
-        adcVal *= 0.2490234375;
-        OCR0A = (uint8_t) adcVal;
+        // 250 / (2^10) = 1/4
+        adcVal /= 4;
+        OCR0B = (uint8_t) adcVal;
 
         _delay_ms(10);
     }
