@@ -36,7 +36,7 @@ inline void adcSetPort(ADC_PORT port){
 inline void adcSetRefVoltage(ADC_PORT port){
     if(port == TEMPERATURE){
         // 1.1V Reference Voltage
-        ADMUX = ((1 << REFS1) | (1 << REFS0));
+        ADMUX |= ((1 << REFS1) | (1 << REFS0));
     } else {
         // AVCC Pin with external capacitor at AREF pin
         ADMUX &= ~(1 << REFS1);
