@@ -17,7 +17,7 @@ typedef enum {
 } ADC_PORT;
 
 void adcInit(){
-    // Enable ADC
+    // Enable ADC, first disable power reduction for ADC
     PRR &= ~(1<<PRADC);
     ADCSRA |= (1 << ADEN);
 
@@ -26,28 +26,29 @@ void adcInit(){
 }
 
 inline void adcSetPort(ADC_PORT port){
-    //clear regs
+    // clear regs
     ADMUX &= ~((1 << MUX3) | (1 << MUX2) | (1 << MUX1) | (1 << MUX0));
+
     // enum is uint8_t first 4 bits are always empty
     ADMUX |= port;
 }
 
-inline void adcSetRevVoltage(ADC_PORT port){
+inline void adcSetRefVoltage(ADC_PORT port){
     if(port == TEMPERATURE){
         // 1.1V Reference Voltage
         ADMUX = ((1 << REFS1) | (1 << REFS0));
     } else {
-        // AVCC Pin
-        ADMUX &= ~(1 << REFS1) | ;
-        //ADMUX |= (1 << REFS0);
+        // AVCC Pin with external capacitor at AREF pin
+        ADMUX &= ~(1 << REFS1);
+        ADMUX |= (1 << REFS0);
     }
+    // Wait for voltage to stabilize
+    _delay_ms(5);
 }
 
 void adcRead(ADC_PORT port, uint16_t* value){
-    adcSetRevVoltage(port);
     adcSetPort(port);
-
-    _delay_ms(5);
+    adcSetRefVoltage(port);
 
     // Start conversion
     ADCSRA |= (1 << ADSC);
@@ -55,10 +56,10 @@ void adcRead(ADC_PORT port, uint16_t* value){
     // Wait until conversion is finished
     while(ADCSRA & (1 << ADSC)) ;
 
-    // Read value
-
     *value = 0;
+    // First read ADCL so ADCH is not updated during read
     *value = ADCL;
+    // After reading ADCH, register can be updated again
     *value |= (ADCH << 8);
 }
 

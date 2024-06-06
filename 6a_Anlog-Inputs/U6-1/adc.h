@@ -25,18 +25,16 @@ void adcInit(){
     ADCSRA |= ((1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0));
 }
 
-inline adcSetPort(ADC_PORT port){
+inline void adcSetPort(ADC_PORT port){
     // clear regs
     ADMUX &= ~((1 << MUX3) | (1 << MUX2) | (1 << MUX1) | (1 << MUX0));
+
     // enum is uint8_t first 4 bits are always empty
-    ADMUX |= (1 << MUX3);
-    // ---------------------------
-    // Müsste das nicht so? 
-    // ADMUX |= port;
+    ADMUX |= port;
 }
 
-inline adcSetRefVoltage(ADC_PORT port){
-    if(/*port == TEMPERATURE*/ 1){
+inline void adcSetRefVoltage(ADC_PORT port){
+    if(port == TEMPERATURE){
         // 1.1V Reference Voltage
         ADMUX = ((1 << REFS1) | (1 << REFS0));
     } else {
@@ -56,13 +54,13 @@ void adcRead(ADC_PORT port, uint16_t* value){
     ADCSRA |= (1 << ADSC);
 
     // Wait until conversion is finished
-    while(ADCSRA & (1 << ADIF)) ;
+    while(ADCSRA & (1 << ADSC)) ;
 
+    *value = 0;
     // First read ADCL so ADCH is not updated during read
-    uint16_t tmp = ADCL;
+    *value = ADCL;
     // After reading ADCH, register can be updated again
-    tmp += (ADCH << 8);
-    *value = tmp;
+    *value |= (ADCH << 8);
 }
 
 #endif // _ADC_H_
