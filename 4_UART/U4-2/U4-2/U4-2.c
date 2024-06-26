@@ -38,7 +38,6 @@ int main(void)
 		t = uart_receive();
 		if (t == '\0') {
 			continue;
-			clearScreen();
 		}
 		uart_send(t);
 		_delay_ms(100);
