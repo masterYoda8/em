@@ -50,7 +50,7 @@ int main(){
 
         // Convert ADC to mV
         // 5.000 / (2^10)
-        adcVal *= 4.8828125;
+        adcVal = adcVal * 48 / 10 ;
 
         snprintf(msgVal, 20, "%d mV", adcVal);
         sendString(msgVal);
