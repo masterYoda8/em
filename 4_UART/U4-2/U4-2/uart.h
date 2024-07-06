@@ -44,7 +44,7 @@ ISR(USART_RX_vect){
 		receiveBuffer[lastReceived] = tmp;
 		lastReceived = ((lastReceived + 1) % 32);
 		counter++;
-		// If ring buffer has 26 elements stop receiving
+		// If ring buffer has 22 elements stop receiving
 		if(counter >= 22 && x_status==XON) {
 			send_xoff();
 		}
