@@ -1,0 +1,3 @@
+[submodule "8_Bootloader"]
+	path = 8_Bootloader
+	url = https://github.com/fabibec/ArduinoProMiniBootloader.git
