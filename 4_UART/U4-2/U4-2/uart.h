@@ -76,7 +76,7 @@ bool bufferEmpty() {
 void uart_send(uint8_t data) {
 	
 	// If send register empty and no XOFF
-	while(!(UCSR0A & (1<<UDRE0)) && !sendBlock) {
+	while(!(UCSR0A & (1<<UDRE0)) || !sendBlock) {
 		;
 	}
 	UDR0 = data;
