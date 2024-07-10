@@ -36,7 +36,6 @@ void getDipValues();
 void setLEDS();
 
 
-
 // If the counter is running or not
 volatile uint8_t running = 1;
 volatile uint8_t count = 7;
@@ -51,7 +50,7 @@ ISR(PCINT1_vect) {
 }
 
 int main(void){
-	// Activate Output and Input Pullups and init
+	// Activate Output and Input Pull-Ups and init
 	DDRB |= ((1 << LED0_MODE) | (1 << LED1_MODE) | (1 << LED2_MODE));
 	PORTB &= ~((1 << LED0_VAL) | (1 << LED1_VAL) | (1 << LED2_VAL));
 	PORTD |= ((1 << DIP1_PULL_UP) | (1 << DIP2_PULL_UP) | (1 << DIP3_PULL_UP) | (1 << TASTER_A4_PULL_UP));
@@ -75,7 +74,7 @@ int main(void){
 	
 	while(1){
 		if(running){
-			count = (!count) ? 7 : count - 1;
+			count = (!count) ? 7 : (count - 1);
 			setLEDS();
 		}
       _delay_ms(1000);

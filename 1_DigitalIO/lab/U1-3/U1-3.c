@@ -34,7 +34,7 @@ inline void setLEDS(uint8_t *);
 void getButtonValues(uint8_t *);
 
 int main(void){
-	// Activate Output and Input Pullupss and init
+	// Activate Output and Input Pull-Ups and init
 	DDRD |= ((1 << LED0_MODE) | (1 << LED1_MODE) | (1 << LED2_MODE));
 	PORTD &= ~((1 << LED0_VAL) | (1 << LED1_VAL) | (1 << LED2_VAL));
 	PORTD |= ((1 << DIP1_PULL_UP) | (1 << DIP2_PULL_UP) | (1 << DIP3_PULL_UP) | (1 << TASTER_A3_PULL_UP) | (1 << TASTER_A4_PULL_UP));

@@ -65,7 +65,7 @@ char msg[30] = {0};
 
 
 int main(void){
-	// Activate Output and Input Pullups and init
+	// Activate Output and Input Pull-Ups and init
 	DDRB |= ((1 << LED0_MODE) | (1 << LED1_MODE) | (1 << LED2_MODE));
 	
 	timer_init();

@@ -61,6 +61,7 @@ void adcRead(ADC_PORT port, uint16_t* value){
     *value = ADCL;
     // After reading ADCH, register can be updated again
     *value |= (ADCH << 8);
+    // Could also be done via ADC macro: *value = ADC;
 }
 
 #endif // _ADC_H_

@@ -88,7 +88,7 @@ int main(void){
 	PORTD |= (1 << DEBUG_LED_VAL); 
 	
 	
-	// Activate Output and Input Pullups and init
+	// Activate Output and Input Pull-Ups and init
 	DDRB |= ((1 << LED0_MODE) | (1 << LED1_MODE) | (1 << LED2_MODE));
 	DDRD |= (1 << PORTD1);
 	PORTB &= ~((1 << LED0_VAL) | (1 << LED1_VAL) | (1 << LED2_VAL));
