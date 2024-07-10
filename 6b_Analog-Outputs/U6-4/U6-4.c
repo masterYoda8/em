@@ -103,8 +103,7 @@ int main(){
 	while (1){
 		adcRead(POTIPIN, &adcVal);
 
-		// Convert ADC to mV
-		// 250 / (2^10) = ~ 1/4
+		// Convert ADC to Duty Cycle (0-250)
 		adcVal /= 4;
 		OCR0B = (uint8_t) adcVal;
 		
